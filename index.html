@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.17/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.17/tailwind.min.css">
+    <link rel="shortcut icon" href="./img/icono.ico" type="image/x-icon">
+    <title>Todo List</title>
+</head>
+<body class="bg-gray-900">
+   <header class="m-5 flex justify-center">
+    <h1 class="text-4xl font-bold bg-gradient-to-r
+        from-red-500 to-yellow-500 bg-clip-text text-transparent">Todo List</h1>
+   </header>
+   <main class="flex flex-col items-center mt-8">
+    <div class="flex items-center justify-center gap-2">
+        <input type="text" name="task-input" placeholder="Enter your task" class="text-white rounded-md p-2 bg-gray-800 
+        focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none">
+        <button class="bg-indigo-200 font-semibold rounded-md px-6 py-2 text-gray-800 hover:bg-indigo-100">Add</button>
+    </div>
+    <figure class="border-2 border-white rounded-md my-8  w-4/5">
+        <div class="flex justify-between items-center mt-5 px-7 ">
+            <span class="text-white text-lg">First task</span>
+            <section class="flex gap-3">
+                <div class="flex justify-center items-center bg-gray-800 rounded-full p-2
+                    hover:bg-gray-700">
+                    <object class="h-7" data="./img/papelera.svg" type="image/svg+xml">
+                        <img src="./img/papelera.svg" alt="icono-papelera">
+                    </object>
+                </div>
+                <div class="flex justify-center items-center bg-gray-800 rounded-full p-2
+                    hover:bg-gray-700">
+                    <object class="h-7" data="./img/edit.svg" type="image/svg+xml">
+                        <img src="./img/edit.svg" alt="icono-editar">
+                    </object>
+                </div>
+            </section>
+        </div>
+        <hr class="h-px w-11/12 my-4 mx-auto">
+    </figure>
+   </main>
+</body>
+</html>
