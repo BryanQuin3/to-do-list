@@ -1,8 +1,10 @@
 const inputTarea = $("#input");
 const cuadro = $("#cuadro");
 const btn = $("#btn");
-const spanTask = $("#task");
+const spanTask = $("#no-task");
+const divMensaje = $("#contenedor-mensaje");
 let id = 1;
+let hayTarea = false;
 
 function agregarTarea(tarea) {
   id++;
@@ -10,25 +12,26 @@ function agregarTarea(tarea) {
   const span = $("<span>").addClass("text-white text-lg").text(tarea);
   divTarea.append(span);
 
-  const section = $("<section>").addClass("flex gap-3");
   const iconos = ["./img/papelera.svg", "./img/edit.svg"];
-  iconos.forEach((icono) => {
-    const div = $("<div>").addClass("flex justify-center items-center bg-gray-800 rounded-full p-2 hover:bg-gray-700 cursor-pointer");
-    const img = $("<img>").attr("src", icono).addClass("h-7");
-    if(icono == iconos[0]){
+  const section = $("<section>").addClass("flex gap-3").append(
+    iconos.map((icono) => {
+      const div = $("<div>").addClass("flex justify-center items-center bg-gray-800 rounded-full p-2 hover:bg-gray-700 cursor-pointer");
+      const img = $("<img>").attr("src", icono).addClass("h-7");
+      if(icono === iconos[0]){
         div.addClass("borrar");
-    } else{
+      } else{
         div.addClass("editar");
-    }
-    div.append(img);
-    section.append(div);
-  });
-  if (spanTask.text() === 'First task') {
-    spanTask.text(tarea); 
+      }
+      return div.append(img);
+    })
+  );
+  divTarea.append(section);
+  const hr = $("<hr>").addClass("h-px w-11/12 my-4 mx-auto").attr("data-id", id);
+  if (!hayTarea) {
+    cuadro.empty().append(divTarea, hr);
+    hayTarea = true;
   } else {
-    divTarea.append(section);
-    const hr = $("<hr>").addClass("h-px w-11/12 my-4 mx-auto").attr("data-id", id);;
-    cuadro.append(divTarea).append(hr);
+    cuadro.append(divTarea, hr);
   }
 }
 
@@ -40,14 +43,14 @@ function manejarClic() {
   }
 }
 
-btn.click(manejarClic);
-
+btn.on('click', manejarClic);
 
 cuadro.on('click', '.borrar', function() {
-  // Encuentra la tarea correspondiente
   const tareaAEliminar = $(this).closest("[data-id]");
+  tareaAEliminar.next("hr").remove();
   tareaAEliminar.remove();
-  // Encuentra el hr correspondiente a la tarea
-  const linea = cuadro.find(`hr[data-id='${tareaAEliminar.data('id')}']`);
-  linea.remove();
+  if (cuadro.children().length === 0) {
+    hayTarea = false;
+    cuadro.empty().append(divMensaje, $("<hr>").addClass("h-px w-11/12 my-4 mx-auto"));
+  }
 });
