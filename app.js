@@ -1,56 +1,97 @@
-const inputTarea = $("#input");
-const cuadro = $("#cuadro");
-const btn = $("#btn");
-const spanTask = $("#no-task");
-const divMensaje = $("#contenedor-mensaje");
-let id = 1;
-let hayTarea = false;
+// Constants
+const $inputTask = $("#input");
+const $taskBox = $("#task-box");
+const $btnAddTask = $("#btn");
+const $noTaskMsg = $("#no-task");
+const $messageContainer = $("#message-container");
 
-function agregarTarea(tarea) {
+// Variables
+let id = 0;
+let taskExists = false;
+
+// Add task to task box
+function addTask(task) {
   id++;
-  const divTarea = $("<div>").addClass("flex justify-between items-center mt-5 px-7 ").attr("data-id", id);
-  const span = $("<span>").addClass("text-white text-lg").text(tarea);
-  divTarea.append(span);
+  const $taskDiv = $("<div>")
+    .addClass("flex justify-between items-center mt-5 px-7 ")
+    .attr("data-id", id);
+  const $taskSpan = $("<span>")
+    .addClass("text-white text-lg")
+    .text(task);
+  $taskDiv.append($taskSpan);
 
-  const iconos = ["./img/papelera.svg", "./img/edit.svg"];
-  const section = $("<section>").addClass("flex gap-3").append(
-    iconos.map((icono) => {
-      const div = $("<div>").addClass("flex justify-center items-center bg-gray-800 rounded-full p-2 hover:bg-gray-700 cursor-pointer");
-      const img = $("<img>").attr("src", icono).addClass("h-7");
-      if(icono === iconos[0]){
-        div.addClass("borrar");
-      } else{
-        div.addClass("editar");
-      }
-      return div.append(img);
-    })
-  );
-  divTarea.append(section);
-  const hr = $("<hr>").addClass("h-px w-11/12 my-4 mx-auto").attr("data-id", id);
-  if (!hayTarea) {
-    cuadro.empty().append(divTarea, hr);
-    hayTarea = true;
+  const $icons = ["./img/trash.svg", "./img/check.svg"];
+  const $iconSection = $("<section>")
+    .addClass("flex gap-3 flex-wrap")
+    .append(
+      // Add icons to the div
+      $icons.map((icon) => {
+        const $iconDiv = $("<div>")
+          .addClass(
+            "flex justify-center items-center bg-gray-800 rounded-full p-2 hover:bg-gray-700 cursor-pointer"
+          );
+        const $iconImg = $("<img>").attr("src", icon).addClass("");
+        if (icon === $icons[0]) {
+          $iconDiv.addClass("delete");
+        } else {
+          $iconDiv.addClass("check");
+        }
+        return $iconDiv.append($iconImg);
+      })
+    );
+  $taskDiv.append($iconSection);
+  const $hr = $("<hr>")
+    .addClass("h-px w-11/12 my-4 mx-auto")
+    .attr("data-id", id);
+  if (!taskExists) {
+    $taskBox.empty().append($taskDiv, $hr);
+    taskExists = true;
   } else {
-    cuadro.append(divTarea, hr);
+    $taskBox.append($taskDiv, $hr);
   }
 }
 
-function manejarClic() {
-  const tarea = inputTarea.val().trim();
-  if (tarea !== "") {
-    agregarTarea(tarea);
-    inputTarea.val("");
+// Check if input task is valid
+function handleClick() {
+  const task = $inputTask.val().trim();
+  if (task !== "") {
+    addTask(task);
+    // Save to localStorage
+    localStorage.setItem(`task ${id}`, task);
+    $inputTask.val("");
   }
 }
 
-btn.on('click', manejarClic);
+$btnAddTask.on("click", handleClick);
 
-cuadro.on('click', '.borrar', function() {
-  const tareaAEliminar = $(this).closest("[data-id]");
-  tareaAEliminar.next("hr").remove();
-  tareaAEliminar.remove();
-  if (cuadro.children().length === 0) {
-    hayTarea = false;
-    cuadro.empty().append(divMensaje, $("<hr>").addClass("h-px w-11/12 my-4 mx-auto"));
+// Delete task
+$taskBox.on("click", ".delete", function () {
+  // Get the task to delete
+  const $taskToDelete = $(this).closest("[data-id]");
+  $taskToDelete.next("hr").remove();
+  $taskToDelete.remove();
+  // Get the id of the task to delete
+  const taskId = $taskToDelete.data("id");
+  // Remove task from localStorage
+  localStorage.removeItem(`task ${taskId}`);
+  if ($taskBox.children().length === 0) {
+    taskExists = false;
+    $taskBox.append($messageContainer, $("<hr>").addClass("h-px w-11/12 my-4 mx-auto"));
+  }
+});
+
+// Mark task as completed
+$taskBox.on("click", ".check", function () {
+  const $completedTask = $(this).closest("[data-id]");
+  const $hr = $completedTask.next("hr");
+  const $taskSpan = $completedTask.find("span");
+  // If already completed then do nothing
+  if ($taskSpan.hasClass("line-through")) {
+    return;
+  } else {
+    $taskSpan.addClass("line-through");
+    $completedTask.next("hr").remove();
+    $completedTask.appendTo($taskBox);
+    $hr.appendTo($taskBox);
   }
 });
