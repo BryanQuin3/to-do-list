@@ -1,6 +1,6 @@
 # To-Do List App
 
-This is a simple to-do list app developed with Tailwind CSS and jQuery. It allows users to add, edit, and delete tasks, as well as mark them as completed.
+This is a simple to-do list app developed with Tailwind CSS and jQuery. It allows users to add and delete tasks, as well as mark them as completed.
 
 ## Demo
 
