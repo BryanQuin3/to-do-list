@@ -72,6 +72,7 @@ taskBox.on("click", ".delete", function () {
   localStorage.removeItem(`task ${taskId}`);
   if (taskBox.children().length === 0) {
     taskExists = false;
+    localStorage.clear();
     taskBox.append(
       messageContainer,
       $("<hr>").addClass("h-px w-11/12 my-4 mx-auto")
