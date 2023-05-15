@@ -12,7 +12,7 @@ let taskExists = false;
 function addTask(tarea) {
   id++;
   const taskDiv = $("<div>")
-    .addClass("flex justify-between items-center mt-5 px-7 ")
+    .addClass("flex justify-between items-center mt-5 px-7 md:px-10 lg:px-14")
     .attr("data-id", id);
   const taskSpan = $("<span>").addClass("text-white text-lg").text(tarea);
   taskDiv.append(taskSpan);
@@ -98,7 +98,8 @@ taskBox.on("click", ".check", function () {
 
 // Get task from localStorage
 $(document).ready(function () {
-  for (let i = 0; i < localStorage.length; i++) {
+  let storageSize = localStorage.length;
+  for (let i = 0; i < storageSize; i++) {
     const key = localStorage.key(i);
     if (key.startsWith('task ')) { 
       addTask(localStorage.getItem(key));

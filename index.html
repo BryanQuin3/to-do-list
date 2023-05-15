@@ -12,15 +12,17 @@
 <body class="bg-gray-900">
    <header class="m-5 flex justify-center">
     <h1 class="text-4xl font-bold bg-gradient-to-r
-        from-red-500 to-yellow-500 bg-clip-text text-transparent">Todo List</h1>
+        from-red-500 to-yellow-500 bg-clip-text text-transparent
+        lg:text-5xl lg:my-7">Todo List</h1>
    </header>
-   <main class="flex flex-col items-center mt-8">
-    <div class="flex items-center justify-center gap-2">
+   <main class="flex flex-col items-center mt-8 md:mt-4">
+    <div class="flex items-center justify-center gap-2 lg:gap-5">
         <input type="text" name="task-input" placeholder="Enter your task" id="input" class="text-white rounded-md p-2 bg-gray-800 
-        focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none">
-        <button id="btn" class="bg-indigo-200 font-semibold rounded-md px-6 py-2 text-gray-800 hover:bg-indigo-100">Add</button>
+        focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none md:py-3 md:px-10 lg:py-4 lg:px-16">
+        <button id="btn" class="bg-indigo-200 font-semibold rounded-md px-6 py-2 text-gray-800 hover:bg-indigo-100
+            md:py-3 lg:py-3.5">Add</button>
     </div>
-    <figure class="border-2 border-white rounded-md my-8  w-4/5" id="task-box">
+    <figure class="border-2 border-white rounded-md my-8  w-4/5 lg:w-3/5" id="task-box">
         <div class="flex justify-center items-center mt-5 px-7" id="message-container">
             <span class="text-white text-lg" id="no-task">No tasks yet. Start adding some!</span>
         </div>
